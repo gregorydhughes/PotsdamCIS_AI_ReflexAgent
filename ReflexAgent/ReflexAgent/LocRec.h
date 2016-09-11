@@ -23,14 +23,6 @@ struct LocRec
 {
 	int x;		// X location in x-y plane
 	int y;		// Y location in x-y plane
-
-	bool operator==(LocRec rtOP)
-	{
-		if (x == rtOP.x && y = rtOP.y)
-			return true;
-		else
-			return false;
-	}
 };
 
 #endif // !LOCREC_H

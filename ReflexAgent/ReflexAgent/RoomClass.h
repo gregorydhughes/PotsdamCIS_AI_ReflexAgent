@@ -14,10 +14,10 @@
 class RoomClass
 {
 public:
-	// DC
+	// DC - Default constuctor
 	RoomClass();
 	
-	// NDC
+	// NDC - Non-Default Constructor
 	RoomClass(int size);
 
 	// Returns the percepts to the vBot on location
@@ -38,11 +38,14 @@ public:
 	// Returns the size (length and width) of the room
 	int GetRoomSize();
 
-	std::string PrintRoom(LocRec currLoc);
+	std::string PrintRoom(LocRec currLoc, Direction dir);
 
 private:
 	// Fills the 2-d array of the room for both the DC and the NDC
 	void BuildRoom(int size);
+
+	// Returns a string representation of the northern and southern walls.
+	std::string PrintFirstAndLastLines();
 
 	
 	int roomSize;		// The lenght and width of the room

@@ -133,15 +133,12 @@ int RoomClass::GetRoomSize()
 	return roomSize;
 }
 
-std::string RoomClass::PrintRoom(LocRec currLoc)
+std::string RoomClass::PrintRoom(LocRec currLoc, Direction dir)
 {
 	std::string ans = "";
 
-	// Top Wall
-	for (int i = 0; i < roomSize; i++)
-		ans = ans + "+-";
-
-	ans = ans + "+\n";
+	// Print top wall
+	ans = ans + PrintFirstAndLastLines()+ "\n";
 
 	for (int i = roomSize; i > 0; i--)
 	{
@@ -149,23 +146,69 @@ std::string RoomClass::PrintRoom(LocRec currLoc)
 
 		for (int j = 1; j <= roomSize; j++)
 		{
-			LocRec temp;
-			temp.x = i;
-			temp.y = j;
-
 			if (room[i][j].hasDirt)
 				ans = ans + "#";
 
 			if (room[i][j].hasFurniture)
 				ans = ans + "X";
 
-			if (temp == currLoc)
-				ans
+			if (room[i][j].isGoal)
+				ans = ans + "$";
+
+			if (currLoc.x == i && currLoc.y == j)
+			{
+				switch (dir)
+				{
+				case NORTH:
+					ans = ans + "^";
+					break;
+				case SOUTH:
+					ans = ans + "v";
+					break;
+				case EAST:
+					ans = ans + ">";
+					break;
+				case WEST:
+					ans = ans + "<";
+					break;
+				default:
+					ans = ans + "o";
+					break;
+				}
+				
+			}
 
 			if (j != roomSize)
 				ans = ans + " ";
 		}
+
+		ans = ans + "|\n";
+
+		for (int j = 1; j <= roomSize; j++)
+		{
+			ans = ans + "+";
+
+			if (j != roomSize)
+				ans = ans + " ";
+		}
+
+		ans = ans + "\n";
 	}
+
+	// Print bottom wall
+	ans = ans + PrintFirstAndLastLines();
+
+	return ans;
+}
+
+std::string RoomClass::PrintFirstAndLastLines()
+{
+	std::string ans = "";
+
+	for (int i = 0; i < roomSize; i++)
+		ans = ans + "+-";
+
+	ans = ans + "+";
 
 	return ans;
 }
