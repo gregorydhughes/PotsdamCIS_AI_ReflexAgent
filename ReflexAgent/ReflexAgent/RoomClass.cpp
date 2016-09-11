@@ -3,16 +3,31 @@
 
 RoomClass::RoomClass()
 {
-
+	BuildRoom(MAX_ROOM_SIZE);
 }
 
 RoomClass::RoomClass(int size)
 {
-	for (int i = 0; i < ROOM_SIZE_WITH_BORDERS; i++)
-		room[0][i].isValid = false;
+	BuildRoom(size);
+}
 
+void RoomClass::BuildRoom(int size)
+{
 	for (int i = 0; i < ROOM_SIZE_WITH_BORDERS; i++)
-		room[i][0].isValid = false;
+	{
+		for (int j = 0; j < ROOM_SIZE_WITH_BORDERS; j++)
+		{
+			room[i][j].isValid = false;
+		}
+	}
+
+	for (int i = 1; i <= size; i++)
+	{
+		for (int j = 1; j <= size; j++)
+		{
+			room[i][j].isValid = true;
+		}
+	}
 }
 
 PerceptRec RoomClass::GetPercepts(LocRec loc)
@@ -96,10 +111,15 @@ void RoomClass::CleanTile(LocRec loc)
 
 void RoomClass::SetDirtOnLocation(LocRec loc)
 {
-
+	room[loc.x][loc.y].hasDirt = true;
 }
 
 void RoomClass::SetFurnitureOnLocation(LocRec loc)
 {
+	room[loc.x][loc.y].hasFurniture = true;
+}
 
+void RoomClass::SetGoalOnLocation(LocRec loc)
+{
+	room[loc.x][loc.y].isGoal = true;
 }
