@@ -150,6 +150,7 @@
     <ClCompile Include="RoomClass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ExceptionClass.h" />
     <ClInclude Include="LocRec.h" />
     <ClInclude Include="PerceptRec.h" />
     <ClInclude Include="RoomClass.h" />

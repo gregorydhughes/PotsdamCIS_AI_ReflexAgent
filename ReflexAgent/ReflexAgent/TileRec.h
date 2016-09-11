@@ -2,6 +2,7 @@
 #define TILEREC_H
 
 const int MAX_ROOM_SIZE = 10;
+const int BORDER_SIZE = 1;
 
 struct TileDetails
 {
@@ -11,6 +12,8 @@ struct TileDetails
 	bool isValid;
 };
 
-typedef TileDetails RoomRec[MAX_ROOM_SIZE][MAX_ROOM_SIZE];
+const int ROOM_SIZE_WITH_BORDERS = MAX_ROOM_SIZE + BORDER_SIZE + BORDER_SIZE;
+
+typedef TileDetails RoomRec[ROOM_SIZE_WITH_BORDERS][ROOM_SIZE_WITH_BORDERS];
 
 #endif // !TILEREC_H
