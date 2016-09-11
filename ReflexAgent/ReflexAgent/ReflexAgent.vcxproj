@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="VBot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LocRec.h" />
