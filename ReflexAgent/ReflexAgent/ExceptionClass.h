@@ -8,3 +8,7 @@
 
 // Thrown when there is an attempt to move outside the bounds of room
 class OutOfBoundsOfRoomException {};
+
+// Thrown in client for default case in switch, 
+//		which will never happen, being that they are switching on an enumerated type
+class IllegalArgumentException {};

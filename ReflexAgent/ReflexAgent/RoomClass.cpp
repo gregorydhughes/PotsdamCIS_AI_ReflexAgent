@@ -1,3 +1,11 @@
+/*
+	Author:		Garry Griggs & Gregory Hughes
+	Date:		9/11/2016
+	Project:	ReflexAgent
+	FileName:	RoomClass.cpp
+	Purpose:	This file contains the implementation for the RoomClass Object
+*/
+
 #include "RoomClass.h"
 #include "ExceptionClass.h"
 
@@ -34,76 +42,70 @@ void RoomClass::BuildRoom(int size)
 
 PerceptRec RoomClass::GetPercepts(LocRec loc)
 {
-	if (room[loc.x][loc.y].isValid) {
-		
-		PerceptRec ans;
+	PerceptRec ans;
 
-		// Check Touch
-		if (room[loc.x][loc.y].hasFurniture)
-			ans.touch = 1;
-		else
-			ans.touch = 0;
-
-		// Check under
-		if (room[loc.x][loc.y].hasDirt)
-			ans.dUnder = 1;
-		else
-			ans.dUnder = 0;
-
-		if (room[loc.x][loc.y].isGoal)
-			ans.gUnder = 1;
-		else
-			ans.gUnder = 0;
-
-		// Check front
-		if (room[loc.x + 1][loc.y].hasDirt)
-			ans.dNorth = 1;
-		else
-			ans.dNorth = 0;
-
-		if (room[loc.x + 1][loc.y].isGoal)
-			ans.dNorth = 1;
-		else
-			ans.dNorth = 0;
-
-		// Check Back
-		if (room[loc.x - 1][loc.y].hasDirt)
-			ans.dSouth = 1;
-		else
-			ans.dSouth = 0;
-
-		if (room[loc.x - 1][loc.y].isGoal)
-			ans.gSouth = 1;
-		else
-			ans.gSouth = 0;
-
-		// Check Left
-		if (room[loc.x][loc.y - 1].hasDirt)
-			ans.dWest = 1;
-		else
-			ans.dWest = 0;
-
-		if (room[loc.x][loc.y - 1].isGoal)
-			ans.gWest = 1;
-		else
-			ans.gWest = 0;
-
-		// Check Right
-		if (room[loc.x][loc.y + 1].hasDirt)
-			ans.dEast = 1;
-		else
-			ans.dEast = 0;
-
-		if (room[loc.x][loc.y + 1].isGoal)
-			ans.gEast = 1;
-		else
-			ans.gEast = 0;
-
-
-		return ans;
-	}
+	// Check Touch
+	if (room[loc.x][loc.y].hasFurniture || !room[loc.x][loc.y].isValid)
+		ans.touch = 1;
 	else
-		throw OutOfBoundsOfRoomException();
+		ans.touch = 0;
+
+	// Check under
+	if (room[loc.x][loc.y].hasDirt)
+		ans.dUnder = 1;
+	else
+		ans.dUnder = 0;
+
+	if (room[loc.x][loc.y].isGoal)
+		ans.gUnder = 1;
+	else
+		ans.gUnder = 0;
+
+	// Check front
+	if (room[loc.x + 1][loc.y].hasDirt)
+		ans.dNorth = 1;
+	else
+		ans.dNorth = 0;
+
+	if (room[loc.x + 1][loc.y].isGoal)
+		ans.dNorth = 1;
+	else
+		ans.dNorth = 0;
+
+	// Check Back
+	if (room[loc.x - 1][loc.y].hasDirt)
+		ans.dSouth = 1;
+	else
+		ans.dSouth = 0;
+
+	if (room[loc.x - 1][loc.y].isGoal)
+		ans.gSouth = 1;
+	else
+		ans.gSouth = 0;
+
+	// Check Left
+	if (room[loc.x][loc.y - 1].hasDirt)
+		ans.dWest = 1;
+	else
+		ans.dWest = 0;
+
+	if (room[loc.x][loc.y - 1].isGoal)
+		ans.gWest = 1;
+	else
+		ans.gWest = 0;
+
+	// Check Right
+	if (room[loc.x][loc.y + 1].hasDirt)
+		ans.dEast = 1;
+	else
+		ans.dEast = 0;
+
+	if (room[loc.x][loc.y + 1].isGoal)
+		ans.gEast = 1;
+	else
+		ans.gEast = 0;
+
+	return ans;
 }
 
 void RoomClass::CleanTile(LocRec loc)
@@ -129,4 +131,41 @@ void RoomClass::SetGoalOnLocation(LocRec loc)
 int RoomClass::GetRoomSize()
 {
 	return roomSize;
+}
+
+std::string RoomClass::PrintRoom(LocRec currLoc)
+{
+	std::string ans = "";
+
+	// Top Wall
+	for (int i = 0; i < roomSize; i++)
+		ans = ans + "+-";
+
+	ans = ans + "+\n";
+
+	for (int i = roomSize; i > 0; i--)
+	{
+		ans = ans + "|";
+
+		for (int j = 1; j <= roomSize; j++)
+		{
+			LocRec temp;
+			temp.x = i;
+			temp.y = j;
+
+			if (room[i][j].hasDirt)
+				ans = ans + "#";
+
+			if (room[i][j].hasFurniture)
+				ans = ans + "X";
+
+			if (temp == currLoc)
+				ans
+
+			if (j != roomSize)
+				ans = ans + " ";
+		}
+	}
+
+	return ans;
 }

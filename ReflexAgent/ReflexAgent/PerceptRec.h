@@ -3,7 +3,7 @@
 	Date:		9/11/2016
 	Project:	ReflexAgent
 	FileName:	PerceptRec.h
-	Purpose:	This file contains the definitions for all exceptions thrown by RoomClass
+	Purpose:	This file contains the definitions for all percepts for the vBot
 */
 
 #ifndef PERCEPTREC_H
