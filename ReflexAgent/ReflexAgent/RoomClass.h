@@ -17,7 +17,11 @@ public:
 
 	void SetFurnitureOnLocation(LocRec loc);
 
+	void SetGoalOnLocation(LocRec loc);
+
 private:
+	void BuildRoom(int size);
+
 	RoomRec room;
 };
 
