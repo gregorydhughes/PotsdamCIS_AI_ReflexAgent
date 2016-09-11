@@ -1,9 +1,10 @@
 #ifndef LOCREC_H
 #define LOCREC_H
 
+// establishes the direction of the vBot
 enum Direction
 {
-	NORTH,
+	NORTH,		//
 	SOUTH,
 	EAST,
 	WEST

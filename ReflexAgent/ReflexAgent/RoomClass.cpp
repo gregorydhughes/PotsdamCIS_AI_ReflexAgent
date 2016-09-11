@@ -57,47 +57,47 @@ PerceptRec RoomClass::GetPercepts(LocRec loc)
 
 		// Check front
 		if (room[loc.x + 1][loc.y].hasDirt)
-			ans.dFront = 1;
+			ans.dNorth = 1;
 		else
-			ans.dFront = 0;
+			ans.dNorth = 0;
 
 		if (room[loc.x + 1][loc.y].isGoal)
-			ans.dFront = 1;
+			ans.dNorth = 1;
 		else
-			ans.dFront = 0;
+			ans.dNorth = 0;
 
 		// Check Back
 		if (room[loc.x - 1][loc.y].hasDirt)
-			ans.dBack = 1;
+			ans.dSouth = 1;
 		else
-			ans.dBack = 0;
+			ans.dSouth = 0;
 
 		if (room[loc.x - 1][loc.y].isGoal)
-			ans.gBack = 1;
+			ans.gSouth = 1;
 		else
-			ans.gBack = 0;
+			ans.gSouth = 0;
 
 		// Check Left
 		if (room[loc.x][loc.y - 1].hasDirt)
-			ans.dLeft = 1;
+			ans.dWest = 1;
 		else
-			ans.dLeft = 0;
+			ans.dWest = 0;
 
 		if (room[loc.x][loc.y - 1].isGoal)
-			ans.gLeft = 1;
+			ans.gWest = 1;
 		else
-			ans.gLeft = 0;
+			ans.gWest = 0;
 
 		// Check Right
 		if (room[loc.x][loc.y + 1].hasDirt)
-			ans.dRight = 1;
+			ans.dEast = 1;
 		else
-			ans.dRight = 0;
+			ans.dEast = 0;
 
 		if (room[loc.x][loc.y + 1].isGoal)
-			ans.gRight = 1;
+			ans.gEast = 1;
 		else
-			ans.gRight = 0;
+			ans.gEast = 0;
 
 
 		return ans;
