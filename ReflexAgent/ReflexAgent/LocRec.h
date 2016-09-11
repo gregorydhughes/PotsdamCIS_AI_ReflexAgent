@@ -1,6 +1,14 @@
 #ifndef LOCREC_H
 #define LOCREC_H
 
+enum Direction
+{
+	NORTH,
+	SOUTH,
+	EAST,
+	WEST
+};
+
 // Structure to hold a 2-d location in room(2d array)
 struct LocRec
 {
