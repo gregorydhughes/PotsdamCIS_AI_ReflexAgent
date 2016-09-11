@@ -3,11 +3,13 @@
 
 RoomClass::RoomClass()
 {
+	roomSize = MAX_ROOM_SIZE;
 	BuildRoom(MAX_ROOM_SIZE);
 }
 
 RoomClass::RoomClass(int size)
 {
+	roomSize = size;
 	BuildRoom(size);
 }
 
@@ -122,4 +124,9 @@ void RoomClass::SetFurnitureOnLocation(LocRec loc)
 void RoomClass::SetGoalOnLocation(LocRec loc)
 {
 	room[loc.x][loc.y].isGoal = true;
+}
+
+int RoomClass::GetRoomSize()
+{
+	return roomSize;
 }

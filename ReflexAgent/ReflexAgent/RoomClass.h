@@ -19,9 +19,12 @@ public:
 
 	void SetGoalOnLocation(LocRec loc);
 
+	int GetRoomSize();
+
 private:
 	void BuildRoom(int size);
 
+	int roomSize;
 	RoomRec room;
 };
 
