@@ -1,8 +1,25 @@
+/*
+	Author:		Garry Griggs & Gregory Hughes
+	Date:		9/11/2016
+	Project:	ReflexAgent
+	FileName:	RoomClass.cpp
+	Purpose:	This file contains the implementation for the RoomClass Object
+*/
+
 #include <iostream>
 #include <fstream>
 #include "RoomClass.h" 
 
 using namespace std;
+
+// Enum for agent actions
+enum Action {
+	GOFORWARD,
+	TURNRIGHT90,
+	TURNLEFT90,
+	VACUUMUPDIRT,
+	TURNOFF
+};
 
 // Parameters: &rc - room object to be constructed and filled
 //             with stuff
@@ -19,14 +36,7 @@ Action getCurrentAction(PerceptRec shiftRec);
 PerceptRec shiftPercepts(PerceptRec temper, Direction dir);
 
 
-// Enum for agent actions
-enum Action {
-	GOFORWARD,
-	TURNRIGHT90,
-	TURNLEFT90,
-	VACUUMUPDIRT,
-	TURNOFF
-};
+
 
 int main() {
 	// Initialize room object
