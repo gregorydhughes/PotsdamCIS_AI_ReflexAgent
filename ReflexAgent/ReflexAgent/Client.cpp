@@ -44,15 +44,15 @@ int main() {
 	buildRoom(rc);
 
 	// Set continue conditions
-	int moves = rc.GetRoomSize() * rc.GetRoomSize();
+	int moves = rc.GetRoomSize() * rc.GetRoomSize() * 10;
 	bool goal = false;
 
 	int points = 0;
 
 	// Set start location
 	LocRec currentLocation;
-	currentLocation.x = 0;
-	currentLocation.y = 0;
+	currentLocation.x = 1;
+	currentLocation.y = 1;
 
 	Direction dir = NORTH;
 	
@@ -175,7 +175,7 @@ int main() {
 		default:
 			break;
 		}
-		rc.PrintRoom(currentLocation, dir);
+		cout << rc.PrintRoom(currentLocation, dir) << endl;
 		points--;
 		moves--;
 	}

@@ -28,6 +28,9 @@ void RoomClass::BuildRoom(int size)
 		for (int j = 0; j < ROOM_SIZE_WITH_BORDERS; j++)
 		{
 			room[i][j].isValid = false;
+			room[i][j].hasDirt = false;
+			room[i][j].hasFurniture = false;
+			room[i][j].isGoal = false;
 		}
 	}
 
@@ -196,7 +199,7 @@ std::string RoomClass::PrintRoom(LocRec currLoc, Direction dir)
 	}
 
 	// Print bottom wall
-	ans = ans + PrintFirstAndLastLines();
+	ans = ans + PrintFirstAndLastLines() + "\n";
 
 	return ans;
 }
