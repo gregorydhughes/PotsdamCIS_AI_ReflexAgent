@@ -190,7 +190,7 @@ int main() {
 // Parameters: prec - current percepts based on location
 // Returns: the current action to do based on percepts
 Action getCurrentAction(PerceptRec shiftRec) {
-	if (shiftRec.touch) {
+	if (shiftRec.touch == 1) {
 		bool randbool = rand() & 1;
 		if (randbool)
 			return TURNLEFT90;
@@ -198,25 +198,25 @@ Action getCurrentAction(PerceptRec shiftRec) {
 			return TURNRIGHT90;
 	}
 		
-	if (shiftRec.dUnder)
+	if (shiftRec.dUnder == 1)
 		return VACUUMUPDIRT;
-	if (shiftRec.dNorth)
+	if (shiftRec.dNorth == 1)
 		return GOFORWARD;
-	if (shiftRec.dSouth)
+	if (shiftRec.dSouth == 1)
 		return TURNRIGHT90;
-	if (shiftRec.dWest)
+	if (shiftRec.dWest == 1)
 		return TURNLEFT90;
-	if (shiftRec.dEast)
+	if (shiftRec.dEast == 1)
 		return TURNRIGHT90;	
-	if (shiftRec.gUnder)
+	if (shiftRec.gUnder == 1)
 		return TURNOFF;
-	if (shiftRec.gNorth)
+	if (shiftRec.gNorth == 1)
 		return GOFORWARD;
-	if (shiftRec.gSouth)
+	if (shiftRec.gSouth == 1)
 		return TURNRIGHT90;
-	if (shiftRec.gWest)
+	if (shiftRec.gWest == 1)
 		return TURNLEFT90;
-	if (shiftRec.gEast)
+	if (shiftRec.gEast == 1)
 		return TURNRIGHT90;	
 }
 
