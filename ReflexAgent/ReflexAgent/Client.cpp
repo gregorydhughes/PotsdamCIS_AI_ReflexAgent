@@ -40,6 +40,14 @@ PerceptRec shiftPercepts(PerceptRec temper, Direction dir);
 // Returns:    north - the square agent moves to
 LocRec getNorth(LocRec cur, Direction dir);
 
+// Pre:		The actions, score and percepts of the vBot have been determined for each Time slice.
+// Post:	The actions, socre and percepts for each Time slice are printed to a file.
+void PrintOutputFile(/*in/out*/ofstream &fout,				// File stream to write to
+						/*in*/int t,						// Time
+						/*in*/PerceptRec pr,				// Percepts at Time
+						/*in*/Action act,					// Action at Time
+						/*in*/int score);					// Score at Time
+
 int main() {
 	// Initialize room object
 	RoomClass rc;
@@ -58,6 +66,12 @@ int main() {
 	currentLocation.y = 1;
 
 	Direction dir = NORTH;
+
+	string fileOut = "prog1_log.txt";
+
+	ofstream fout;
+
+	fout.open(fileOut.c_str);
 	
 	// Clean room
 	while (moves > 0 && !goal) {
@@ -117,7 +131,9 @@ int main() {
 		default:
 			break;
 		}
-		for (int i = 0; i < 1000000000; i++) {}
+		
+		//for (int i = 0; i < 1000000000; i++) {}
+		
 		cout << rc.GetRoomString(currentLocation, dir) << endl;
 		points--;
 		moves--;
@@ -178,17 +194,17 @@ LocRec getNorth(LocRec cur, Direction dir) {
 // Returns: the current action to do based on percepts
 Action getCurrentAction(PerceptRec shiftRec) {
 
-	cout << "Touch: " << shiftRec.touch << endl;
-	cout << "dUnder: " << shiftRec.dUnder << endl;
-	cout << "dNorth: " << shiftRec.dNorth << endl;
-	cout << "dSouth: " << shiftRec.dSouth << endl;
-	cout << "dEast: " << shiftRec.dEast << endl;
-	cout << "dWest: " << shiftRec.dWest << endl;
-	cout << "gUnder: " << shiftRec.gUnder << endl;
-	cout << "gNorth: " << shiftRec.gNorth << endl;
-	cout << "gSouth: " << shiftRec.gSouth << endl;
-	cout << "gWest: " << shiftRec.dWest << endl;
-	cout << "gEast: " << shiftRec.gEast << endl;
+	cout << "Touch: " << char(shiftRec.touch + 48) << endl;
+	cout << "dUnder: " << char(shiftRec.dUnder + 48) << endl;
+	cout << "dNorth: " << char(shiftRec.dNorth + 48) << endl;
+	cout << "dSouth: " << char(shiftRec.dSouth + 48) << endl;
+	cout << "dEast: " << char(shiftRec.dEast + 48) << endl;
+	cout << "dWest: " << char(shiftRec.dWest + 48) << endl;
+	cout << "gUnder: " << char(shiftRec.gUnder + 48) << endl;
+	cout << "gNorth: " << char(shiftRec.gNorth + 48) << endl;
+	cout << "gSouth: " << char(shiftRec.gSouth + 48) << endl;
+	cout << "gWest: " << char(shiftRec.dWest + 48) << endl;
+	cout << "gEast: " << char(shiftRec.gEast + 48) << endl;
 
 	if (shiftRec.touch == 1) {
 		if (rand() & 1)
@@ -326,4 +342,15 @@ void buildRoom(RoomClass &rc) {
 
 		rc.SetDirtOnLocation(temp);
 	}
+}
+
+// Pre:		The actions, score and percepts of the vBot have been determined for each Time slice.
+// Post:	The actions, socre and percepts for each Time slice are printed to a file.
+void PrintOutputFile(/*in/out*/ofstream &fout,				// File Stream to write to
+						/*in*/int t,						// Time
+						/*in*/PerceptRec pr,				// Percepts at Time
+						/*in*/Action act,					// Action at Time
+						/*in*/int score)					// Score at Time
+{
+
 }
