@@ -35,6 +35,10 @@ Action getCurrentAction(PerceptRec shiftRec);
 // Returns:  shiftRec - the percepts after shifting
 PerceptRec shiftPercepts(PerceptRec temper, Direction dir);
 
+// Parameters:   cur - the current location of the bot
+// Returns:    north - the square agent moves to
+LocRec getNorth(LocRec cur);
+
 int main() {
 	// Initialize room object
 	RoomClass rc;
@@ -57,31 +61,7 @@ int main() {
 	while (moves > 0 && !goal) {
 		PerceptRec temper = rc.GetPercepts(currentLocation);
 		PerceptRec shiftRec = shiftPercepts(temper, dir);			
-		LocRec north;// , south, east, west;
-		switch (dir) {
-		case NORTH:
-			// Set north coord
-			north.x = currentLocation.x;
-			north.y = currentLocation.y + 1;
-			break;
-		case SOUTH:
-			// Set north coord
-			north.x = currentLocation.x;
-			north.y = currentLocation.y - 1;
-			break;
-		case EAST:
-			// Set north coord
-			north.x = currentLocation.x + 1;
-			north.y = currentLocation.y;
-			break;
-		case WEST:
-			// Set north coord
-			north.x = currentLocation.x - 1;
-			north.y = currentLocation.y;
-			break;
-		default:
-			break;
-		}
+		LocRec north = getNorth(currentLocation, dir);	
 		Action curAction = getCurrentAction(shiftRec);
 		switch (curAction) {
 		case GOFORWARD:
@@ -142,14 +122,11 @@ int main() {
 	}
 
 	if (goal)
-	{
-		// You can not concatenate here. to print another part of the cout you must use the extraction operator
-		// you concantenated an int onto a string. you can't implicitly do that in c++
+	{		
 		cout << "Congrats you made the goal!\n Total Points: " << points << endl;
 	}
 	else
-	{
-		// You can not concatenate here. to print another part of the cout you must use the extraction operator
+	{		
 		cout << "Sorry, you didn't make the goal.\n Total Points: " << points << endl;
 	}
 
@@ -162,6 +139,38 @@ int main() {
 	return 0;
 }
 
+
+// Parameters:   cur - the current location of the bot
+//               dir - the direction agent is facing
+// Returns:    north - the square agent moves to
+LocRec getNorth(LocRec cur, Direction dir) {
+	LocRec north;
+	switch (dir) {
+	case NORTH:
+		// Set north coord
+		north.x = cur.x;
+		north.y = cur.y + 1;
+		break;
+	case SOUTH:
+		// Set north coord
+		north.x = cur.x;
+		north.y = cur.y - 1;
+		break;
+	case EAST:
+		// Set north coord
+		north.x = cur.x + 1;
+		north.y = cur.y;
+		break;
+	case WEST:
+		// Set north coord
+		north.x = cur.x - 1;
+		north.y = cur.y;
+		break;
+	default:
+		break;
+	}
+	return north;
+}
 
 // Parameters: prec - current percepts based on location
 // Returns: the current action to do based on percepts
