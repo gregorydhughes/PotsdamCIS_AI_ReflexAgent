@@ -35,9 +35,6 @@ Action getCurrentAction(PerceptRec shiftRec);
 // Returns:  shiftRec - the percepts after shifting
 PerceptRec shiftPercepts(PerceptRec temper, Direction dir);
 
-
-
-
 int main() {
 	// Initialize room object
 	RoomClass rc;
@@ -60,63 +57,27 @@ int main() {
 	while (moves > 0 && !goal) {
 		PerceptRec temper = rc.GetPercepts(currentLocation);
 		PerceptRec shiftRec = shiftPercepts(temper, dir);			
-		LocRec north, south, east, west;		
+		LocRec north;// , south, east, west;
 		switch (dir) {
 		case NORTH:
 			// Set north coord
 			north.x = currentLocation.x;
 			north.y = currentLocation.y + 1;
-			// Set south coord
-			south.x = currentLocation.x;
-			south.y = currentLocation.y - 1;
-			// Set east coord
-			east.x = currentLocation.x + 1;
-			east.y = currentLocation.y;
-			// Set west coord
-			west.x = currentLocation.x - 1;
-			west.y = currentLocation.y;
 			break;
 		case SOUTH:
 			// Set north coord
 			north.x = currentLocation.x;
 			north.y = currentLocation.y - 1;
-			// Set south coord
-			south.x = currentLocation.x;
-			south.y = currentLocation.y + 1;
-			// Set east coord
-			east.x = currentLocation.x - 1;
-			east.y = currentLocation.y;
-			// Set west coord
-			west.x = currentLocation.x + 1;
-			west.y = currentLocation.y;
 			break;
 		case EAST:
 			// Set north coord
 			north.x = currentLocation.x + 1;
 			north.y = currentLocation.y;
-			// Set south coord
-			south.x = currentLocation.x - 1;
-			south.y = currentLocation.y;
-			// Set east coord
-			east.x = currentLocation.x;
-			east.y = currentLocation.y - 1;
-			// Set west coord
-			west.x = currentLocation.x;
-			west.y = currentLocation.y + 1;
 			break;
 		case WEST:
 			// Set north coord
 			north.x = currentLocation.x - 1;
 			north.y = currentLocation.y;
-			// Set south coord
-			south.x = currentLocation.x + 1;
-			south.y = currentLocation.y;
-			// Set east coord
-			east.x = currentLocation.x;
-			east.y = currentLocation.y + 1;
-			// Set west coord
-			west.x = currentLocation.x;
-			west.y = currentLocation.y - 1;
 			break;
 		default:
 			break;
@@ -175,7 +136,7 @@ int main() {
 		default:
 			break;
 		}
-		cout << rc.PrintRoom(currentLocation, dir) << endl;
+		cout << rc.GetRoomString(currentLocation, dir) << endl;
 		points--;
 		moves--;
 	}
@@ -183,6 +144,7 @@ int main() {
 		cout << "Congrats you made the goal!\n Total Points: " + points << endl;
 	else
 		cout << "Sorry, you didn't make the goal.\n Total Points: " + points << endl;
+
 	return 0;
 }
 
@@ -279,9 +241,9 @@ PerceptRec shiftPercepts(PerceptRec temper, Direction dir) {
 // Post-Condition: Builds room for agent to explore and clean
 void buildRoom(RoomClass &rc) {
 	// Read in from file
-	cout << "Please enter file name: " << endl;
-	string file;
-	cin >> file;
+	cout << "Please enter file name: or not..." << endl;
+	string file = "input1.txt";
+	//cin >> file;
 	ifstream fin;
 	fin.open(file.c_str());
 

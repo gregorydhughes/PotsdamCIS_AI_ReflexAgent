@@ -38,14 +38,14 @@ public:
 	// Returns the size (length and width) of the room
 	int GetRoomSize();
 
-	std::string PrintRoom(LocRec currLoc, Direction dir);
+	std::string GetRoomString(LocRec currLoc, Direction dir);
 
 private:
 	// Fills the 2-d array of the room for both the DC and the NDC
 	void BuildRoom(int size);
 
 	// Returns a string representation of the northern and southern walls.
-	std::string PrintFirstAndLastLines();
+	std::string GetTopAndBottomWalls();
 
 	
 	int roomSize;		// The lenght and width of the room
