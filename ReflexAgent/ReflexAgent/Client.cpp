@@ -44,6 +44,7 @@ int main() {
 	// Initialize room object
 	RoomClass rc;
 	buildRoom(rc);
+	srand(1);
 
 	// Set continue conditions
 	int moves = rc.GetRoomSize() * rc.GetRoomSize() * 10;
@@ -60,13 +61,11 @@ int main() {
 	
 	// Clean room
 	while (moves > 0 && !goal) {
-		PerceptRec temper = rc.GetPercepts(currentLocation);
-		PerceptRec shiftRec = shiftPercepts(temper, dir);			
+		PerceptRec shiftRec = shiftPercepts(rc.GetPercepts(currentLocation), dir);
 		Action curAction = getCurrentAction(shiftRec);
 		switch (curAction) {
 		case GOFORWARD:
-			LocRec north = getNorth(currentLocation, dir);
-			currentLocation = north;
+			currentLocation = getNorth(currentLocation, dir);			
 			break;
 		case TURNRIGHT90:
 			switch (dir) {
@@ -109,7 +108,7 @@ int main() {
 			points += 100;
 			break;
 		case TURNOFF:
-			if (temper.gUnder == 0)
+			if (shiftRec.gUnder == 0)
 				points -= 1000;
 			else
 				goal = !goal;
@@ -117,7 +116,7 @@ int main() {
 		default:
 			break;
 		}
-		for (int i = 0; i < 1000000000; i++) {}
+		for (int i = 0; i < 1000000000; i++);
 		cout << rc.GetRoomString(currentLocation, dir) << endl;
 		points--;
 		moves--;
@@ -189,10 +188,9 @@ Action getCurrentAction(PerceptRec shiftRec) {
 	cout << "gSouth: " << shiftRec.gSouth << endl;
 	cout << "gWest: " << shiftRec.dWest << endl;
 	cout << "gEast: " << shiftRec.gEast << endl;
-
+	
 	if (shiftRec.touch == 1) {
-		bool randbool = rand() & 1;
-		if (randbool)
+		if (rand() & 1)
 			return TURNLEFT90;
 		else
 			return TURNRIGHT90;
@@ -216,7 +214,15 @@ Action getCurrentAction(PerceptRec shiftRec) {
 	if (shiftRec.gWest == 1)
 		return TURNLEFT90;
 	if (shiftRec.gEast == 1)
-		return TURNRIGHT90;	
+		return TURNRIGHT90;
+
+	if (rand() % 3 == 0)
+		return TURNLEFT90;
+	else if (rand() % 3 == 1)
+		return TURNRIGHT90;
+	else
+		return GOFORWARD;
+
 }
 
 // Parameters: temper - the cardinal percepts before shifting
