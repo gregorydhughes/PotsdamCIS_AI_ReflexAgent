@@ -1,0 +1,19 @@
+Time	<B Du Df Db Dr Dl Gu Gf Gb Gr Gl>			Action	Score
+----	---------------------------------			------	-----
+0	< 0  0  0  0  0  0  0  0  0  0  0 >		N/A		0
+1	< 0  0  0  0  0  0  0  0  0  0  0 >		Go forward	-1
+2	< 0  0  0  0  0  0  0  0  0  0  0 >		Turn Right	-2
+3	< 0  0  0  0  0  0  0  0  0  0  0 >		Turn Right	-3
+4	< 0  0  0  0  0  0  0  0  0  0  0 >		Turn Left	-4
+5	< 0  0  0  0  0  0  0  0  0  0  0 >		Turn Left	-5
+6	< 0  0  0  0  0  0  0  0  0  0  0 >		Go forward	-6
+7	< 0  0  0  0  0  0  0  0  0  0  0 >		Go forward	-7
+8	< 0  0  0  0  0  1  0  0  0  0  0 >		Turn Right	-8
+9	< 0  0  1  0  0  0  0  0  0  0  0 >		Go forward	-9
+10	< 0  0  0  0  0  0  0  0  0  1  0 >		Turn Left	-10
+11	< 0  0  0  0  0  0  0  1  0  0  0 >		Go forward	-11
+12	< 0  0  0  1  0  0  0  0  0  0  0 >		Turn Right	-12
+13	< 0  0  0  0  0  1  0  0  0  0  0 >		Turn Right	-13
+14	< 0  0  1  0  0  0  0  0  0  0  0 >		Go forward	-14
+15	< 0  0  0  0  0  0  0  0  1  0  0 >		Turn Right	-15
+16	< 0  0  0  0  0  0  0  0  0  0  1 >		Turn Right	-16
