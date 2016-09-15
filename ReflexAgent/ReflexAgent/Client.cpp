@@ -160,7 +160,7 @@ int main() {
 			break;
 		}
 		
-		for (int i = 0; i < 1000000000; i++) {}
+		for (int i = 0; i < 500000000; i++) {}
 			
 		
 		if (currTime == 0)
@@ -270,9 +270,9 @@ Action getCurrentAction(PerceptRec shiftRec) {
 	if (shiftRec.gEast == 1)
 		return TURNRIGHT90;
 
-	if (rand() % 4 == 0)
+	if (rand() % 3 == 0)
 		return TURNLEFT90;
-	else if (rand() %  == 1)
+	else if (rand() % 3 == 1)
 		return TURNRIGHT90;
 	else
 		return GOFORWARD;
