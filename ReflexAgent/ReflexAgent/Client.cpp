@@ -21,6 +21,12 @@ enum Action {
 	TURNOFF
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                   //
+//                                                             Begin Prototypes                                                      //
+//                                                                                                                                   //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // Parameters: &rc - room object to be constructed and filled
 //             with stuff
 // Post-Condition: Builds room for agent to explore and clean
@@ -40,6 +46,8 @@ PerceptRec shiftPercepts(PerceptRec temper, Direction dir);
 // Returns:    north - the square agent moves to
 LocRec getNorth(LocRec cur, Direction dir);
 
+string ActionEnumToString(/*in*/Action act);
+
 // Pre:		The actions, score and percepts of the vBot have been determined for each Time slice.
 // Post:	The actions, socre and percepts for each Time slice are printed to a file.
 void PrintOutputFile(/*in/out*/ofstream &fout,				// File stream to write to
@@ -48,6 +56,18 @@ void PrintOutputFile(/*in/out*/ofstream &fout,				// File stream to write to
 						/*in*/Action act,					// Action at Time
 						/*in*/int score);					// Score at Time
 
+// Pre:		An Action Enumerated type is determined
+// Post:	A string representation of the Action Enum type is returned to caller
+string ActionEnumToString(/*in*/Action act);				// Enum action to convert
+
+char IntToChar()
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                   //
+//                                                           Begin vBot and Main                                                     //
+//                                                                                                                                   //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int main() {
 	// Initialize room object
 	RoomClass rc;
@@ -55,15 +75,16 @@ int main() {
 	srand(1);
 
 	// Set continue conditions
-	int moves = rc.GetRoomSize() * rc.GetRoomSize() * 10;
+	int maxMoves = rc.GetRoomSize() * rc.GetRoomSize() * 10;
+	int currTime = 0;
 	bool goal = false;
 
 	int points = 0;
 
 	// Set start location
 	LocRec currentLocation;
-	currentLocation.x = 1;
-	currentLocation.y = 1;
+	currentLocation.row = 1;
+	currentLocation.col = 1;
 
 	Direction dir = NORTH;
 
@@ -71,26 +92,12 @@ int main() {
 
 	ofstream fout;
 
-	// fout.open(fileOut.c_str);
+	fout.open(fileOut.c_str());
 	
 	// Clean room
-	while (moves > 0 && !goal) {
-		PerceptRec temper = rc.GetPercepts(currentLocation);
-		cout << "Touch: " << char(temper.touch + 48) << endl;
-		cout << "dUnder: " << char(temper.dUnder + 48) << endl;
-		cout << "dNorth: " << char(temper.dNorth + 48) << endl;
-		cout << "dSouth: " << char(temper.dSouth + 48) << endl;
-		cout << "dEast: " << char(temper.dEast + 48) << endl;
-		cout << "dWest: " << char(temper.dWest + 48) << endl;
-		cout << "gUnder: " << char(temper.gUnder + 48) << endl;
-		cout << "gNorth: " << char(temper.gNorth + 48) << endl;
-		cout << "gSouth: " << char(temper.gSouth + 48) << endl;
-		cout << "gWest: " << char(temper.dWest + 48) << endl;
-		cout << "gEast: " << char(temper.gEast + 48) << endl;
-		PerceptRec shiftRec = shiftPercepts(temper, dir);			
+	while (currTime < maxMoves && !goal) {
+		PerceptRec shiftRec = shiftPercepts(rc.GetPercepts(currentLocation), dir);
 		Action curAction = getCurrentAction(shiftRec);
-		cout << "Direction: " << dir << endl;
-		cout << rc.GetRoomString(currentLocation, dir) << endl;
 		switch (curAction) {
 		case GOFORWARD:
 			currentLocation = getNorth(currentLocation, dir);			
@@ -144,10 +151,21 @@ int main() {
 		default:
 			break;
 		}
+		
+		//for (int i = 0; i < 1000000000; i++) {}
+		
 		cout << rc.GetRoomString(currentLocation, dir) << endl;
-		for (int i = 0; i < 1000000000; i++) {}
+		
+		if (currTime == 0)
+		{
+			PrintOutputFile(fout, currTime, shiftRec, curAction, points);
+		}
+
 		points--;
-		moves--;
+		currTime++;
+
+		PrintOutputFile(fout, currTime, shiftRec, curAction, points);
+
 	}
 
 	if (goal)
@@ -155,7 +173,11 @@ int main() {
 		cout << "Congrats you made the goal!\n Total Points: " << points << endl;
 	}
 	else
-	{		
+	{
+		// not on goal penalty
+		points -= 1000;
+
+		// print regrets
 		cout << "Sorry, you didn't make the goal.\n Total Points: " << points << endl;
 	}
 
@@ -164,6 +186,9 @@ int main() {
 	//                    This line must be deleted before submission!                   //
 	///////////////////////////////////////////////////////////////////////////////////////
 	system("pause");
+
+	// Close the streams
+	fout.close();
 
 	return 0;
 }
@@ -177,23 +202,23 @@ LocRec getNorth(LocRec cur, Direction dir) {
 	switch (dir) {
 	case NORTH:
 		// Set north coord
-		north.x = cur.x + 1;
-		north.y = cur.y;
+		north.row = cur.row;
+		north.col = cur.col + 1;
 		break;
 	case SOUTH:
 		// Set north coord
-		north.x = cur.x;
-		north.y = cur.y - 1;
+		north.row = cur.row;
+		north.col = cur.col - 1;
 		break;
 	case EAST:
 		// Set north coord
-		north.x = cur.y + 1;
-		north.y = cur.x;
+		north.row = cur.row + 1;
+		north.col = cur.col;
 		break;
 	case WEST:
 		// Set north coord
-		north.x = cur.x - 1;
-		north.y = cur.y;
+		north.row = cur.row - 1;
+		north.col = cur.col;
 		break;
 	default:
 		break;
@@ -205,7 +230,6 @@ LocRec getNorth(LocRec cur, Direction dir) {
 // Returns: the current action to do based on percepts
 Action getCurrentAction(PerceptRec shiftRec) {
 
-	
 	cout << "Touch: " << char(shiftRec.touch + 48) << endl;
 	cout << "dUnder: " << char(shiftRec.dUnder + 48) << endl;
 	cout << "dNorth: " << char(shiftRec.dNorth + 48) << endl;
@@ -226,10 +250,8 @@ Action getCurrentAction(PerceptRec shiftRec) {
 	}		
 	if (shiftRec.dUnder == 1)
 		return VACUUMUPDIRT;
-	if (shiftRec.dNorth == 1) {
-		cout << "This is saying go north!\n" << endl;
+	if (shiftRec.dNorth == 1)
 		return GOFORWARD;
-	}
 	if (shiftRec.dSouth == 1)
 		return TURNRIGHT90;
 	if (shiftRec.dWest == 1)
@@ -284,8 +306,8 @@ PerceptRec shiftPercepts(PerceptRec temper, Direction dir) {
 		// Swap front and back values
 		shiftRec.dNorth = temper.dEast;
 		shiftRec.dSouth = temper.dWest;
-		shiftRec.dEast = temper.dNorth;
-		shiftRec.dWest = temper.dSouth;
+		shiftRec.dEast = temper.dSouth;
+		shiftRec.dWest = temper.dNorth;
 		// Assign left and right values the same
 		shiftRec.gNorth = temper.gEast;
 		shiftRec.gSouth = temper.gWest;
@@ -330,17 +352,17 @@ void buildRoom(RoomClass &rc) {
 
 	// Set goal
 	LocRec goal;
-	fin >> goal.x >> goal.y;
+	fin >> goal.row >> goal.col;
 	rc.SetGoalOnLocation(goal);
 
 	// Place furniture
 	for (int i = 0; i < numberOfFurniture; i++) {
 		LocRec temp;
-		fin >> temp.x >> temp.y;
+		fin >> temp.row >> temp.col;
 		
 		// Array is one based
-		temp.x += 1;
-		temp.y += 1;
+		temp.row += 1;
+		temp.col += 1;
 		
 		rc.SetFurnitureOnLocation(temp);
 	}
@@ -348,14 +370,16 @@ void buildRoom(RoomClass &rc) {
 	// Place dirt
 	for (int i = 0; i < numberOfDirtPiles; i++) {
 		LocRec temp;
-		fin >> temp.x >> temp.y;
+		fin >> temp.row >> temp.col;
 
 		// Array is one based
-		temp.x += 1;
-		temp.y += 1;
+		temp.row += 1;
+		temp.col += 1;
 
 		rc.SetDirtOnLocation(temp);
 	}
+
+	fin.close();
 }
 
 // Pre:		The actions, score and percepts of the vBot have been determined for each Time slice.
@@ -366,5 +390,41 @@ void PrintOutputFile(/*in/out*/ofstream &fout,				// File Stream to write to
 						/*in*/Action act,					// Action at Time
 						/*in*/int score)					// Score at Time
 {
+	if (t == 0)
+	{
+		fout << "Time\tB Du Df Db Dr Dl Gu Gf Gb Gr Gl>\t\tAction\tScore" << endl;
+		fout << "----\t--------------------------------\t\t------\t-----" << endl;
+	}
 
+	fout << t << "\t<" << pr.touch << " " << pr.dUnder << " " << pr.dNorth << " " << pr.dSouth << " " << pr.dWest << " "
+		<< pr.dEast << " " << pr.gUnder << " " << pr.gNorth << " " << pr.gSouth << " " << pr.gWest << " " << pr.gEast << ">\t"
+		<< ActionEnumToString(act) << "\t" << endl;
+
+}
+
+// Pre:		An Action Enumerated type is determined
+// Post:	A string representation of the Action Enum type is returned to caller
+string ActionEnumToString(/*in*/Action act)				// Enum action to convert
+{
+	switch (act)
+	{
+	case GOFORWARD:
+		return "Go forward";
+		break;
+	case TURNRIGHT90:
+		return "Turn Right";
+		break;
+	case TURNLEFT90:
+		return "Turn Left";
+		break;
+	case VACUUMUPDIRT:
+		return "Vacuum Tile";
+		break;
+	case TURNOFF:
+		return "Turn Off";
+		break;
+	default:
+		throw NoApplicableStringException();
+		break;
+	}
 }

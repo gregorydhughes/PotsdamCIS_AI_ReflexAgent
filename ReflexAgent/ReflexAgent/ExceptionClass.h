@@ -12,3 +12,5 @@ class OutOfBoundsOfRoomException {};
 // Thrown in client for default case in switch, 
 //		which will never happen, being that they are switching on an enumerated type
 class IllegalArgumentException {};
+
+class NoApplicableStringException {};

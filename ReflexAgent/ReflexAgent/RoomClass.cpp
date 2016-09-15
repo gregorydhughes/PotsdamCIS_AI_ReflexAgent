@@ -7,7 +7,7 @@
 */
 
 #include "RoomClass.h"
-#include "ExceptionClass.h"
+
 
 RoomClass::RoomClass()
 {
@@ -48,62 +48,62 @@ PerceptRec RoomClass::GetPercepts(LocRec loc)
 	PerceptRec ans;
 
 	// Check Touch
-	if (room[loc.x][loc.y].hasFurniture || !room[loc.x][loc.y].isValid)
+	if (room[loc.row][loc.col].hasFurniture || !room[loc.row][loc.col].isValid)
 		ans.touch = 1;
 	else
 		ans.touch = 0;
 
 	// Check under
-	if (room[loc.x][loc.y].hasDirt)
+	if (room[loc.row][loc.col].hasDirt)
 		ans.dUnder = 1;
 	else
 		ans.dUnder = 0;
 
-	if (room[loc.x][loc.y].isGoal)
+	if (room[loc.row][loc.col].isGoal)
 		ans.gUnder = 1;
 	else
 		ans.gUnder = 0;
 
 	// Check front
-	if (room[loc.x + 1][loc.y].hasDirt)
+	if (room[loc.row + 1][loc.col].hasDirt)
 		ans.dNorth = 1;
 	else
 		ans.dNorth = 0;
 
-	if (room[loc.x + 1][loc.y].isGoal)
+	if (room[loc.row + 1][loc.col].isGoal)
 		ans.gNorth = 1;
 	else
 		ans.gNorth = 0;
 
 	// Check Back
-	if (room[loc.x - 1][loc.y].hasDirt)
+	if (room[loc.row - 1][loc.col].hasDirt)
 		ans.dSouth = 1;
 	else
 		ans.dSouth = 0;
 
-	if (room[loc.x - 1][loc.y].isGoal)
+	if (room[loc.row - 1][loc.col].isGoal)
 		ans.gSouth = 1;
 	else
 		ans.gSouth = 0;
 
 	// Check Left
-	if (room[loc.x][loc.y - 1].hasDirt)
+	if (room[loc.row][loc.col - 1].hasDirt)
 		ans.dWest = 1;
 	else
 		ans.dWest = 0;
 
-	if (room[loc.x][loc.y - 1].isGoal)
+	if (room[loc.row][loc.col - 1].isGoal)
 		ans.gWest = 1;
 	else
 		ans.gWest = 0;
 
 	// Check Right
-	if (room[loc.x][loc.y + 1].hasDirt)
+	if (room[loc.row][loc.col + 1].hasDirt)
 		ans.dEast = 1;
 	else
 		ans.dEast = 0;
 
-	if (room[loc.x][loc.y + 1].isGoal)
+	if (room[loc.row][loc.col + 1].isGoal)
 		ans.gEast = 1;
 	else
 		ans.gEast = 0;
@@ -113,22 +113,22 @@ PerceptRec RoomClass::GetPercepts(LocRec loc)
 
 void RoomClass::CleanTile(LocRec loc)
 {
-	room[loc.x][loc.y].hasDirt = false;
+	room[loc.row][loc.col].hasDirt = false;
 }
 
 void RoomClass::SetDirtOnLocation(LocRec loc)
 {
-	room[loc.x][loc.y].hasDirt = true;
+	room[loc.row][loc.col].hasDirt = true;
 }
 
 void RoomClass::SetFurnitureOnLocation(LocRec loc)
 {
-	room[loc.x][loc.y].hasFurniture = true;
+	room[loc.row][loc.col].hasFurniture = true;
 }
 
 void RoomClass::SetGoalOnLocation(LocRec loc)
 {
-	room[loc.x][loc.y].isGoal = true;
+	room[loc.row][loc.col].isGoal = true;
 }
 
 int RoomClass::GetRoomSize()
@@ -158,7 +158,7 @@ std::string RoomClass::GetRoomString(LocRec currLoc, Direction dir)
 			else if (room[i][j].isGoal)
 				ans = ans + "$";
 
-			else if (currLoc.x == i && currLoc.y == j)
+			else if (currLoc.row == i && currLoc.col == j)
 			{
 				switch (dir)
 				{
