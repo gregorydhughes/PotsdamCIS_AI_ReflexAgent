@@ -96,15 +96,21 @@ int main() {
 	
 	// Clean room
 	while (currTime < maxMoves && !goal) {
+		// Get the current percept records and then shift for direction
 		PerceptRec shiftRec = shiftPercepts(rc.GetPercepts(currentLocation), dir);
-		Action curAction = getCurrentAction(shiftRec);		
+
+		// Select best action based on percept recs
+		Action curAction = getCurrentAction(shiftRec);
+
+		// check for furniture bumbs if so move to prev location
 		if (shiftRec.touch == 1) {
 			cout << rc.GetRoomString(currentLocation, dir) << endl;
 			currentLocation = prevLocation;
 			continue;
-		} else {
+		} else
 			cout << rc.GetRoomString(currentLocation, dir) << endl;
-		}
+
+		// Perform best action selected
 		switch (curAction) {
 		case GOFORWARD:
 			prevLocation = currentLocation;
@@ -160,14 +166,10 @@ int main() {
 			break;
 		}
 		
-		for (int i = 0; i < 500000000; i++) {}
-			
-		
 		if (currTime == 0)
-		{
 			PrintOutputFile(fout, currTime, shiftRec, curAction, points);
-		}
-
+		
+		// Decrement points and increment current time
 		points--;
 		currTime++;
 
@@ -188,12 +190,6 @@ int main() {
 		cout << "Sorry, you didn't make the goal.\n Total Points: " << points << endl;
 	}
 
-	
-	///////////////////////////////////////////////////////////////////////////////////////
-	//                    This line must be deleted before submission!                   //
-	///////////////////////////////////////////////////////////////////////////////////////
-	system("pause");
-
 	// Close the streams
 	fout.close();
 
@@ -203,7 +199,7 @@ int main() {
 
 // Parameters:   cur - the current location of the bot
 //               dir - the direction agent is facing
-// Returns:    north - the square agent moves to
+// Returns:    north - the square the agent will move to
 LocRec getNorth(LocRec cur, Direction dir) {
 	LocRec north;
 	switch (dir) {
@@ -236,18 +232,6 @@ LocRec getNorth(LocRec cur, Direction dir) {
 // Parameters: prec - current percepts based on location
 // Returns: the current action to do based on percepts
 Action getCurrentAction(PerceptRec shiftRec) {
-
-	cout << "Touch: " << shiftRec.touch << endl;
-	cout << "dUnder: " << shiftRec.dUnder << endl;
-	cout << "dNorth: " << shiftRec.dNorth << endl;
-	cout << "dSouth: " << shiftRec.dSouth << endl;
-	cout << "dEast: " << shiftRec.dEast << endl;
-	cout << "dWest: " << shiftRec.dWest << endl;
-	cout << "gUnder: " << shiftRec.gUnder << endl;
-	cout << "gNorth: " << shiftRec.gNorth << endl;
-	cout << "gSouth: " << shiftRec.gSouth << endl;
-	cout << "gWest: " << shiftRec.dWest << endl;
-	cout << "gEast: " << shiftRec.gEast << endl;
 
 	if (shiftRec.dUnder == 1)
 		return VACUUMUPDIRT;
@@ -282,6 +266,7 @@ Action getCurrentAction(PerceptRec shiftRec) {
 // Parameters: temper - the cardinal percepts before shifting
 //                dir - the direction agent is facing
 // Returns:  shiftRec - the percepts after shifting
+// Post-Condition: builds a PerceptRec based on the direction of agent
 PerceptRec shiftPercepts(PerceptRec temper, Direction dir) {
 	PerceptRec shiftRec;
 	shiftRec.dUnder = temper.dUnder;
