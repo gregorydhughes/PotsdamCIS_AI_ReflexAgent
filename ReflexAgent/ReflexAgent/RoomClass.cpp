@@ -190,15 +190,18 @@ std::string RoomClass::GetRoomString(LocRec currLoc, Direction dir)
 
 		ans = ans + "|\n";
 
-		for (int j = 0; j <= roomSize; j++)
+		if (i != 1)
 		{
-			ans = ans + "+";
+			for (int j = 0; j <= roomSize; j++)
+			{
+				ans = ans + "+";
 
-			if (j != roomSize)
-				ans = ans + " ";
+				if (j != roomSize)
+					ans = ans + " ";
+			}
+
+			ans = ans + "\n";
 		}
-
-		ans = ans + "\n";
 	}
 
 	// Print bottom wall
