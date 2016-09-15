@@ -84,6 +84,8 @@ int main() {
 	currentLocation.row = 1;
 	currentLocation.col = 1;
 
+	LocRec prevLocation = currentLocation;
+
 	Direction dir = NORTH;
 
 	string fileOut = "prog1_log.txt";
@@ -95,9 +97,17 @@ int main() {
 	// Clean room
 	while (currTime < maxMoves && !goal) {
 		PerceptRec shiftRec = shiftPercepts(rc.GetPercepts(currentLocation), dir);
-		Action curAction = getCurrentAction(shiftRec);
+		Action curAction = getCurrentAction(shiftRec);		
+		if (shiftRec.touch == 1) {
+			cout << rc.GetRoomString(currentLocation, dir) << endl;
+			currentLocation = prevLocation;
+			continue;
+		} else {
+			cout << rc.GetRoomString(currentLocation, dir) << endl;
+		}
 		switch (curAction) {
 		case GOFORWARD:
+			prevLocation = currentLocation;
 			currentLocation = getNorth(currentLocation, dir);			
 			break;
 		case TURNRIGHT90:
@@ -150,9 +160,8 @@ int main() {
 			break;
 		}
 		
-		for (int i = 0; i < 1000000000; i++) {}
-		
-		cout << rc.GetRoomString(currentLocation, dir) << endl;
+		for (int i = 0; i < 500000000; i++) {}
+			
 		
 		if (currTime == 0)
 		{
@@ -200,23 +209,23 @@ LocRec getNorth(LocRec cur, Direction dir) {
 	switch (dir) {
 	case NORTH:
 		// Set north coord
-		north.row = cur.row;
-		north.col = cur.col + 1;
-		break;
-	case SOUTH:
-		// Set north coord
-		north.row = cur.row;
-		north.col = cur.col - 1;
-		break;
-	case EAST:
-		// Set north coord
 		north.row = cur.row + 1;
 		north.col = cur.col;
 		break;
-	case WEST:
+	case SOUTH:
 		// Set north coord
 		north.row = cur.row - 1;
 		north.col = cur.col;
+		break;
+	case EAST:
+		// Set north coord
+		north.row = cur.row;
+		north.col = cur.col + 1;
+		break;
+	case WEST:
+		// Set north coord
+		north.row = cur.row;
+		north.col = cur.col - 1;
 		break;
 	default:
 		break;
@@ -240,12 +249,6 @@ Action getCurrentAction(PerceptRec shiftRec) {
 	cout << "gWest: " << shiftRec.dWest << endl;
 	cout << "gEast: " << shiftRec.gEast << endl;
 
-	if (shiftRec.touch == 1) {
-		if (rand() & 1)
-			return TURNLEFT90;
-		else
-			return TURNRIGHT90;
-	}		
 	if (shiftRec.dUnder == 1)
 		return VACUUMUPDIRT;
 	if (shiftRec.dNorth == 1)
@@ -392,10 +395,10 @@ void PrintOutputFile(/*in/out*/ofstream &fout,				// File Stream to write to
 
 	if (t == 0)
 	{
-		fout << "Time\t<B Du Df Db Dr Dl Gu Gf Gb Gr Gl>\t\t\tAction\tScore" << endl;
-		fout << "----\t---------------------------------\t\t\t------\t-----" << endl;
+		fout << "Time\t<B Du Df Db Dr Dl Gu Gf Gb Gr Gl>\t\tAction\tScore" << endl;
+		fout << "----\t---------------------------------\t\t------\t-----" << endl;
 
-		actionStr = "N/A\t";
+		actionStr = "N/A";
 	}
 
 	fout << t << "\t< " << pr.touch << "  " << pr.dUnder << "  " << pr.dNorth << "  " << pr.dSouth << "  " << pr.dWest << "  "
