@@ -61,7 +61,10 @@ int main() {
 	
 	// Clean room
 	while (moves > 0 && !goal) {
-		PerceptRec shiftRec = shiftPercepts(rc.GetPercepts(currentLocation), dir);
+		PerceptRec temper = rc.GetPercepts(currentLocation);
+		
+
+		PerceptRec shiftRec = shiftPercepts(temper, dir);			
 		Action curAction = getCurrentAction(shiftRec);
 		switch (curAction) {
 		case GOFORWARD:
@@ -116,7 +119,7 @@ int main() {
 		default:
 			break;
 		}
-		for (int i = 0; i < 1000000000; i++);
+		for (int i = 0; i < 1000000000; i++) {}
 		cout << rc.GetRoomString(currentLocation, dir) << endl;
 		points--;
 		moves--;
@@ -188,7 +191,7 @@ Action getCurrentAction(PerceptRec shiftRec) {
 	cout << "gSouth: " << shiftRec.gSouth << endl;
 	cout << "gWest: " << shiftRec.dWest << endl;
 	cout << "gEast: " << shiftRec.gEast << endl;
-	
+
 	if (shiftRec.touch == 1) {
 		if (rand() & 1)
 			return TURNLEFT90;
