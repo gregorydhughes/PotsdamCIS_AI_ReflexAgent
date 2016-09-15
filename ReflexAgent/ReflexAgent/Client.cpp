@@ -395,10 +395,10 @@ void PrintOutputFile(/*in/out*/ofstream &fout,				// File Stream to write to
 
 	if (t == 0)
 	{
-		fout << "Time\t<B Du Df Db Dr Dl Gu Gf Gb Gr Gl>\t\tAction\tScore" << endl;
-		fout << "----\t---------------------------------\t\t------\t-----" << endl;
+		fout << "Time\t<B Du Df Db Dr Dl Gu Gf Gb Gr Gl>\t\t\tAction\tScore" << endl;
+		fout << "----\t---------------------------------\t\t\t------\t-----" << endl;
 
-		actionStr = "N/A";
+		actionStr = "N/A\t";
 	}
 
 	fout << t << "\t< " << pr.touch << "  " << pr.dUnder << "  " << pr.dNorth << "  " << pr.dSouth << "  " << pr.dWest << "  "
