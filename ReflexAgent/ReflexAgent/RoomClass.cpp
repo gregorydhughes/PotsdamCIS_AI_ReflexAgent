@@ -71,9 +71,9 @@ PerceptRec RoomClass::GetPercepts(LocRec loc)
 		ans.dNorth = 0;
 
 	if (room[loc.x + 1][loc.y].isGoal)
-		ans.dNorth = 1;
+		ans.gNorth = 1;
 	else
-		ans.dNorth = 0;
+		ans.gNorth = 0;
 
 	// Check Back
 	if (room[loc.x - 1][loc.y].hasDirt)
