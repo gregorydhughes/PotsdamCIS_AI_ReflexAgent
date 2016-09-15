@@ -190,7 +190,7 @@ std::string RoomClass::GetRoomString(LocRec currLoc, Direction dir)
 
 		ans = ans + "|\n";
 
-		for (int j = 1; j <= roomSize; j++)
+		for (int j = 0; j <= roomSize; j++)
 		{
 			ans = ans + "+";
 

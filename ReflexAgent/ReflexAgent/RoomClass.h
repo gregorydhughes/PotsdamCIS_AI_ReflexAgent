@@ -11,6 +11,12 @@
 #include "PerceptRec.h"
 #include <string>
 
+const int MAX_ROOM_SIZE = 10;	// The Maximum size of the room
+const int BORDER_SIZE = 1;		// The size of the border
+								
+// The Maximum size of the room with borders
+const int ROOM_SIZE_WITH_BORDERS = MAX_ROOM_SIZE + BORDER_SIZE + BORDER_SIZE;
+
 class RoomClass
 {
 public:
@@ -46,7 +52,9 @@ private:
 
 	// Returns a string representation of the northern and southern walls.
 	std::string GetTopAndBottomWalls();
-
+	
+	// The Maximum room size as a record
+	typedef TileDetails RoomRec[ROOM_SIZE_WITH_BORDERS][ROOM_SIZE_WITH_BORDERS];
 	
 	int roomSize;		// The lenght and width of the room
 	RoomRec room;		// The room

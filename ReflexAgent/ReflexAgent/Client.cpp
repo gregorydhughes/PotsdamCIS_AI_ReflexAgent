@@ -140,10 +140,24 @@ int main() {
 		points--;
 		moves--;
 	}
+
 	if (goal)
-		cout << "Congrats you made the goal!\n Total Points: " + points << endl;
+	{
+		// You can not concatenate here. to print another part of the cout you must use the extraction operator
+		// you concantenated an int onto a string. you can't implicitly do that in c++
+		cout << "Congrats you made the goal!\n Total Points: " << points << endl;
+	}
 	else
-		cout << "Sorry, you didn't make the goal.\n Total Points: " + points << endl;
+	{
+		// You can not concatenate here. to print another part of the cout you must use the extraction operator
+		cout << "Sorry, you didn't make the goal.\n Total Points: " << points << endl;
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////////////////
+	//                    This line must be deleted before submission!                   //
+	///////////////////////////////////////////////////////////////////////////////////////
+	system("pause");
 
 	return 0;
 }
@@ -263,6 +277,11 @@ void buildRoom(RoomClass &rc) {
 	for (int i = 0; i < numberOfFurniture; i++) {
 		LocRec temp;
 		fin >> temp.x >> temp.y;
+		
+		// Array is one based
+		temp.x += 1;
+		temp.y += 1;
+		
 		rc.SetFurnitureOnLocation(temp);
 	}
 
@@ -270,6 +289,11 @@ void buildRoom(RoomClass &rc) {
 	for (int i = 0; i < numberOfDirtPiles; i++) {
 		LocRec temp;
 		fin >> temp.x >> temp.y;
+
+		// Array is one based
+		temp.x += 1;
+		temp.y += 1;
+
 		rc.SetDirtOnLocation(temp);
 	}
 }
