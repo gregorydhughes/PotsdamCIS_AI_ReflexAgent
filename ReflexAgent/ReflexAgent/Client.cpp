@@ -60,8 +60,6 @@ void PrintOutputFile(/*in/out*/ofstream &fout,				// File stream to write to
 // Post:	A string representation of the Action Enum type is returned to caller
 string ActionEnumToString(/*in*/Action act);				// Enum action to convert
 
-char IntToChar()
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                                   //
 //                                                           Begin vBot and Main                                                     //
@@ -86,6 +84,8 @@ int main() {
 	currentLocation.row = 1;
 	currentLocation.col = 1;
 
+	LocRec prevLocation = currentLocation;
+
 	Direction dir = NORTH;
 
 	string fileOut = "prog1_log.txt";
@@ -97,9 +97,17 @@ int main() {
 	// Clean room
 	while (currTime < maxMoves && !goal) {
 		PerceptRec shiftRec = shiftPercepts(rc.GetPercepts(currentLocation), dir);
-		Action curAction = getCurrentAction(shiftRec);
+		Action curAction = getCurrentAction(shiftRec);		
+		if (shiftRec.touch == 1) {
+			cout << rc.GetRoomString(currentLocation, dir) << endl;
+			currentLocation = prevLocation;
+			continue;
+		} else {
+			cout << rc.GetRoomString(currentLocation, dir) << endl;
+		}
 		switch (curAction) {
 		case GOFORWARD:
+			prevLocation = currentLocation;
 			currentLocation = getNorth(currentLocation, dir);			
 			break;
 		case TURNRIGHT90:
@@ -152,9 +160,8 @@ int main() {
 			break;
 		}
 		
-		//for (int i = 0; i < 1000000000; i++) {}
-		
-		cout << rc.GetRoomString(currentLocation, dir) << endl;
+		for (int i = 0; i < 1000000000; i++) {}
+			
 		
 		if (currTime == 0)
 		{
@@ -202,23 +209,23 @@ LocRec getNorth(LocRec cur, Direction dir) {
 	switch (dir) {
 	case NORTH:
 		// Set north coord
-		north.row = cur.row;
-		north.col = cur.col + 1;
-		break;
-	case SOUTH:
-		// Set north coord
-		north.row = cur.row;
-		north.col = cur.col - 1;
-		break;
-	case EAST:
-		// Set north coord
 		north.row = cur.row + 1;
 		north.col = cur.col;
 		break;
-	case WEST:
+	case SOUTH:
 		// Set north coord
 		north.row = cur.row - 1;
 		north.col = cur.col;
+		break;
+	case EAST:
+		// Set north coord
+		north.row = cur.row;
+		north.col = cur.col + 1;
+		break;
+	case WEST:
+		// Set north coord
+		north.row = cur.row;
+		north.col = cur.col - 1;
 		break;
 	default:
 		break;
@@ -242,12 +249,6 @@ Action getCurrentAction(PerceptRec shiftRec) {
 	cout << "gWest: " << char(shiftRec.dWest + 48) << endl;
 	cout << "gEast: " << char(shiftRec.gEast + 48) << endl;
 
-	if (shiftRec.touch == 1) {
-		if (rand() & 1)
-			return TURNLEFT90;
-		else
-			return TURNRIGHT90;
-	}		
 	if (shiftRec.dUnder == 1)
 		return VACUUMUPDIRT;
 	if (shiftRec.dNorth == 1)
@@ -269,9 +270,9 @@ Action getCurrentAction(PerceptRec shiftRec) {
 	if (shiftRec.gEast == 1)
 		return TURNRIGHT90;
 
-	if (rand() % 3 == 0)
+	if (rand() % 4 == 0)
 		return TURNLEFT90;
-	else if (rand() % 3 == 1)
+	else if (rand() %  == 1)
 		return TURNRIGHT90;
 	else
 		return GOFORWARD;
