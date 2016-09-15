@@ -60,8 +60,6 @@ void PrintOutputFile(/*in/out*/ofstream &fout,				// File stream to write to
 // Post:	A string representation of the Action Enum type is returned to caller
 string ActionEnumToString(/*in*/Action act);				// Enum action to convert
 
-char IntToChar()
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                                                                   //
 //                                                           Begin vBot and Main                                                     //
@@ -230,17 +228,17 @@ LocRec getNorth(LocRec cur, Direction dir) {
 // Returns: the current action to do based on percepts
 Action getCurrentAction(PerceptRec shiftRec) {
 
-	cout << "Touch: " << char(shiftRec.touch + 48) << endl;
-	cout << "dUnder: " << char(shiftRec.dUnder + 48) << endl;
-	cout << "dNorth: " << char(shiftRec.dNorth + 48) << endl;
-	cout << "dSouth: " << char(shiftRec.dSouth + 48) << endl;
-	cout << "dEast: " << char(shiftRec.dEast + 48) << endl;
-	cout << "dWest: " << char(shiftRec.dWest + 48) << endl;
-	cout << "gUnder: " << char(shiftRec.gUnder + 48) << endl;
-	cout << "gNorth: " << char(shiftRec.gNorth + 48) << endl;
-	cout << "gSouth: " << char(shiftRec.gSouth + 48) << endl;
-	cout << "gWest: " << char(shiftRec.dWest + 48) << endl;
-	cout << "gEast: " << char(shiftRec.gEast + 48) << endl;
+	cout << "Touch: " << shiftRec.touch << endl;
+	cout << "dUnder: " << shiftRec.dUnder << endl;
+	cout << "dNorth: " << shiftRec.dNorth << endl;
+	cout << "dSouth: " << shiftRec.dSouth << endl;
+	cout << "dEast: " << shiftRec.dEast << endl;
+	cout << "dWest: " << shiftRec.dWest << endl;
+	cout << "gUnder: " << shiftRec.gUnder << endl;
+	cout << "gNorth: " << shiftRec.gNorth << endl;
+	cout << "gSouth: " << shiftRec.gSouth << endl;
+	cout << "gWest: " << shiftRec.dWest << endl;
+	cout << "gEast: " << shiftRec.gEast << endl;
 
 	if (shiftRec.touch == 1) {
 		if (rand() & 1)
@@ -390,15 +388,19 @@ void PrintOutputFile(/*in/out*/ofstream &fout,				// File Stream to write to
 						/*in*/Action act,					// Action at Time
 						/*in*/int score)					// Score at Time
 {
+	string actionStr = ActionEnumToString(act);
+
 	if (t == 0)
 	{
-		fout << "Time\tB Du Df Db Dr Dl Gu Gf Gb Gr Gl>\t\tAction\tScore" << endl;
-		fout << "----\t--------------------------------\t\t------\t-----" << endl;
+		fout << "Time\t<B Du Df Db Dr Dl Gu Gf Gb Gr Gl>\t\tAction\tScore" << endl;
+		fout << "----\t---------------------------------\t\t------\t-----" << endl;
+
+		actionStr = "N/A";
 	}
 
-	fout << t << "\t<" << pr.touch << " " << pr.dUnder << " " << pr.dNorth << " " << pr.dSouth << " " << pr.dWest << " "
-		<< pr.dEast << " " << pr.gUnder << " " << pr.gNorth << " " << pr.gSouth << " " << pr.gWest << " " << pr.gEast << ">\t"
-		<< ActionEnumToString(act) << "\t" << endl;
+	fout << t << "\t< " << pr.touch << "  " << pr.dUnder << "  " << pr.dNorth << "  " << pr.dSouth << "  " << pr.dWest << "  "
+		<< pr.dEast << "  " << pr.gUnder << "  " << pr.gNorth << "  " << pr.gSouth << "  " << pr.gWest << "  " << pr.gEast << " >\t"
+		<< "\t" << actionStr << "\t" << score << endl;
 
 }
 
