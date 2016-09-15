@@ -71,13 +71,26 @@ int main() {
 
 	ofstream fout;
 
-	fout.open(fileOut.c_str);
+	// fout.open(fileOut.c_str);
 	
 	// Clean room
 	while (moves > 0 && !goal) {
 		PerceptRec temper = rc.GetPercepts(currentLocation);
+		cout << "Touch: " << char(temper.touch + 48) << endl;
+		cout << "dUnder: " << char(temper.dUnder + 48) << endl;
+		cout << "dNorth: " << char(temper.dNorth + 48) << endl;
+		cout << "dSouth: " << char(temper.dSouth + 48) << endl;
+		cout << "dEast: " << char(temper.dEast + 48) << endl;
+		cout << "dWest: " << char(temper.dWest + 48) << endl;
+		cout << "gUnder: " << char(temper.gUnder + 48) << endl;
+		cout << "gNorth: " << char(temper.gNorth + 48) << endl;
+		cout << "gSouth: " << char(temper.gSouth + 48) << endl;
+		cout << "gWest: " << char(temper.dWest + 48) << endl;
+		cout << "gEast: " << char(temper.gEast + 48) << endl;
 		PerceptRec shiftRec = shiftPercepts(temper, dir);			
 		Action curAction = getCurrentAction(shiftRec);
+		cout << "Direction: " << dir << endl;
+		cout << rc.GetRoomString(currentLocation, dir) << endl;
 		switch (curAction) {
 		case GOFORWARD:
 			currentLocation = getNorth(currentLocation, dir);			
@@ -131,10 +144,8 @@ int main() {
 		default:
 			break;
 		}
-		
-		//for (int i = 0; i < 1000000000; i++) {}
-		
 		cout << rc.GetRoomString(currentLocation, dir) << endl;
+		for (int i = 0; i < 1000000000; i++) {}
 		points--;
 		moves--;
 	}
@@ -166,8 +177,8 @@ LocRec getNorth(LocRec cur, Direction dir) {
 	switch (dir) {
 	case NORTH:
 		// Set north coord
-		north.x = cur.x;
-		north.y = cur.y + 1;
+		north.x = cur.x + 1;
+		north.y = cur.y;
 		break;
 	case SOUTH:
 		// Set north coord
@@ -176,8 +187,8 @@ LocRec getNorth(LocRec cur, Direction dir) {
 		break;
 	case EAST:
 		// Set north coord
-		north.x = cur.x + 1;
-		north.y = cur.y;
+		north.x = cur.y + 1;
+		north.y = cur.x;
 		break;
 	case WEST:
 		// Set north coord
@@ -194,6 +205,7 @@ LocRec getNorth(LocRec cur, Direction dir) {
 // Returns: the current action to do based on percepts
 Action getCurrentAction(PerceptRec shiftRec) {
 
+	
 	cout << "Touch: " << char(shiftRec.touch + 48) << endl;
 	cout << "dUnder: " << char(shiftRec.dUnder + 48) << endl;
 	cout << "dNorth: " << char(shiftRec.dNorth + 48) << endl;
@@ -214,8 +226,10 @@ Action getCurrentAction(PerceptRec shiftRec) {
 	}		
 	if (shiftRec.dUnder == 1)
 		return VACUUMUPDIRT;
-	if (shiftRec.dNorth == 1)
+	if (shiftRec.dNorth == 1) {
+		cout << "This is saying go north!\n" << endl;
 		return GOFORWARD;
+	}
 	if (shiftRec.dSouth == 1)
 		return TURNRIGHT90;
 	if (shiftRec.dWest == 1)
@@ -268,6 +282,18 @@ PerceptRec shiftPercepts(PerceptRec temper, Direction dir) {
 		break;
 	case EAST:
 		// Swap front and back values
+		shiftRec.dNorth = temper.dEast;
+		shiftRec.dSouth = temper.dWest;
+		shiftRec.dEast = temper.dNorth;
+		shiftRec.dWest = temper.dSouth;
+		// Assign left and right values the same
+		shiftRec.gNorth = temper.gEast;
+		shiftRec.gSouth = temper.gWest;
+		shiftRec.gEast = temper.gSouth;
+		shiftRec.gWest = temper.gNorth;
+		break;
+	case WEST:
+		// Swap front and back values
 		shiftRec.dNorth = temper.dWest;
 		shiftRec.dSouth = temper.dEast;
 		shiftRec.dEast = temper.dNorth;
@@ -277,18 +303,6 @@ PerceptRec shiftPercepts(PerceptRec temper, Direction dir) {
 		shiftRec.gSouth = temper.gEast;
 		shiftRec.gEast = temper.gNorth;
 		shiftRec.gWest = temper.gSouth;
-		break;
-	case WEST:
-		// Swap front and back values
-		shiftRec.dNorth = temper.dEast;
-		shiftRec.dSouth = temper.dWest;
-		shiftRec.dEast = temper.dSouth;
-		shiftRec.dWest = temper.dNorth;
-		// Assign left and right values the same
-		shiftRec.gNorth = temper.gEast;
-		shiftRec.gSouth = temper.gWest;
-		shiftRec.gEast = temper.gSouth;
-		shiftRec.gWest = temper.gNorth;
 		break;
 	default:
 		break;
