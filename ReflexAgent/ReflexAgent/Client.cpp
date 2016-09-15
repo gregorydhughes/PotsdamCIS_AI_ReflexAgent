@@ -62,8 +62,6 @@ int main() {
 	// Clean room
 	while (moves > 0 && !goal) {
 		PerceptRec temper = rc.GetPercepts(currentLocation);
-		
-
 		PerceptRec shiftRec = shiftPercepts(temper, dir);			
 		Action curAction = getCurrentAction(shiftRec);
 		switch (curAction) {
@@ -254,18 +252,6 @@ PerceptRec shiftPercepts(PerceptRec temper, Direction dir) {
 		break;
 	case EAST:
 		// Swap front and back values
-		shiftRec.dNorth = temper.dEast;
-		shiftRec.dSouth = temper.dWest;
-		shiftRec.dEast = temper.dSouth;
-		shiftRec.dWest = temper.dNorth;
-		// Assign left and right values the same
-		shiftRec.gNorth = temper.gEast;
-		shiftRec.gSouth = temper.gWest;
-		shiftRec.gEast = temper.gSouth;
-		shiftRec.gWest = temper.gNorth;
-		break;
-	case WEST:
-		// Swap front and back values
 		shiftRec.dNorth = temper.dWest;
 		shiftRec.dSouth = temper.dEast;
 		shiftRec.dEast = temper.dNorth;
@@ -275,6 +261,18 @@ PerceptRec shiftPercepts(PerceptRec temper, Direction dir) {
 		shiftRec.gSouth = temper.gEast;
 		shiftRec.gEast = temper.gNorth;
 		shiftRec.gWest = temper.gSouth;
+		break;
+	case WEST:
+		// Swap front and back values
+		shiftRec.dNorth = temper.dEast;
+		shiftRec.dSouth = temper.dWest;
+		shiftRec.dEast = temper.dSouth;
+		shiftRec.dWest = temper.dNorth;
+		// Assign left and right values the same
+		shiftRec.gNorth = temper.gEast;
+		shiftRec.gSouth = temper.gWest;
+		shiftRec.gEast = temper.gSouth;
+		shiftRec.gWest = temper.gNorth;
 		break;
 	default:
 		break;
