@@ -81,8 +81,8 @@ int main() {
 
 	// Set start location
 	LocRec currentLocation;
-	currentLocation.row = 1;
 	currentLocation.col = 1;
+	currentLocation.row = 1;
 
 	LocRec prevLocation = currentLocation;
 
@@ -338,17 +338,17 @@ void buildRoom(RoomClass &rc) {
 
 	// Set goal
 	LocRec goal;
-	fin >> goal.row >> goal.col;
+	fin >> goal.col >> goal.row;
 	rc.SetGoalOnLocation(goal);
 
 	// Place furniture
 	for (int i = 0; i < numberOfFurniture; i++) {
 		LocRec temp;
-		fin >> temp.row >> temp.col;
+		fin >> temp.col >> temp.row;
 		
 		// Array is one based
-		temp.row += 1;
 		temp.col += 1;
+		temp.row += 1;
 		
 		rc.SetFurnitureOnLocation(temp);
 	}
@@ -356,11 +356,11 @@ void buildRoom(RoomClass &rc) {
 	// Place dirt
 	for (int i = 0; i < numberOfDirtPiles; i++) {
 		LocRec temp;
-		fin >> temp.row >> temp.col;
+		fin >> temp.col >> temp.row;
 
 		// Array is one based
-		temp.row += 1;
 		temp.col += 1;
+		temp.row += 1;
 
 		rc.SetDirtOnLocation(temp);
 	}
