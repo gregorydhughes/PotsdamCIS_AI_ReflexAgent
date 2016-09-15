@@ -36,8 +36,9 @@ Action getCurrentAction(PerceptRec shiftRec);
 PerceptRec shiftPercepts(PerceptRec temper, Direction dir);
 
 // Parameters:   cur - the current location of the bot
+//               dir - the direction agent is facing
 // Returns:    north - the square agent moves to
-LocRec getNorth(LocRec cur);
+LocRec getNorth(LocRec cur, Direction dir);
 
 int main() {
 	// Initialize room object
@@ -61,10 +62,10 @@ int main() {
 	while (moves > 0 && !goal) {
 		PerceptRec temper = rc.GetPercepts(currentLocation);
 		PerceptRec shiftRec = shiftPercepts(temper, dir);			
-		LocRec north = getNorth(currentLocation, dir);	
 		Action curAction = getCurrentAction(shiftRec);
 		switch (curAction) {
 		case GOFORWARD:
+			LocRec north = getNorth(currentLocation, dir);
 			currentLocation = north;
 			break;
 		case TURNRIGHT90:
@@ -116,6 +117,7 @@ int main() {
 		default:
 			break;
 		}
+		for (int i = 0; i < 1000000000; i++) {}
 		cout << rc.GetRoomString(currentLocation, dir) << endl;
 		points--;
 		moves--;
@@ -130,7 +132,7 @@ int main() {
 		cout << "Sorry, you didn't make the goal.\n Total Points: " << points << endl;
 	}
 
-
+	
 	///////////////////////////////////////////////////////////////////////////////////////
 	//                    This line must be deleted before submission!                   //
 	///////////////////////////////////////////////////////////////////////////////////////
@@ -175,14 +177,26 @@ LocRec getNorth(LocRec cur, Direction dir) {
 // Parameters: prec - current percepts based on location
 // Returns: the current action to do based on percepts
 Action getCurrentAction(PerceptRec shiftRec) {
+
+	cout << "Touch: " << shiftRec.touch << endl;
+	cout << "dUnder: " << shiftRec.dUnder << endl;
+	cout << "dNorth: " << shiftRec.dNorth << endl;
+	cout << "dSouth: " << shiftRec.dSouth << endl;
+	cout << "dEast: " << shiftRec.dEast << endl;
+	cout << "dWest: " << shiftRec.dWest << endl;
+	cout << "gUnder: " << shiftRec.gUnder << endl;
+	cout << "gNorth: " << shiftRec.gNorth << endl;
+	cout << "gSouth: " << shiftRec.gSouth << endl;
+	cout << "gWest: " << shiftRec.dWest << endl;
+	cout << "gEast: " << shiftRec.gEast << endl;
+
 	if (shiftRec.touch == 1) {
 		bool randbool = rand() & 1;
 		if (randbool)
 			return TURNLEFT90;
 		else
 			return TURNRIGHT90;
-	}
-		
+	}		
 	if (shiftRec.dUnder == 1)
 		return VACUUMUPDIRT;
 	if (shiftRec.dNorth == 1)
