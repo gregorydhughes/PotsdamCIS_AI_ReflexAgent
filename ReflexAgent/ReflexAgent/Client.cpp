@@ -83,8 +83,8 @@ int main() {
 
 	// Set start location
 	LocRec currentLocation;
-	currentLocation.x = 1;
-	currentLocation.y = 1;
+	currentLocation.row = 1;
+	currentLocation.col = 1;
 
 	Direction dir = NORTH;
 
@@ -202,23 +202,23 @@ LocRec getNorth(LocRec cur, Direction dir) {
 	switch (dir) {
 	case NORTH:
 		// Set north coord
-		north.x = cur.x;
-		north.y = cur.y + 1;
+		north.row = cur.row;
+		north.col = cur.col + 1;
 		break;
 	case SOUTH:
 		// Set north coord
-		north.x = cur.x;
-		north.y = cur.y - 1;
+		north.row = cur.row;
+		north.col = cur.col - 1;
 		break;
 	case EAST:
 		// Set north coord
-		north.x = cur.x + 1;
-		north.y = cur.y;
+		north.row = cur.row + 1;
+		north.col = cur.col;
 		break;
 	case WEST:
 		// Set north coord
-		north.x = cur.x - 1;
-		north.y = cur.y;
+		north.row = cur.row - 1;
+		north.col = cur.col;
 		break;
 	default:
 		break;
@@ -352,17 +352,17 @@ void buildRoom(RoomClass &rc) {
 
 	// Set goal
 	LocRec goal;
-	fin >> goal.x >> goal.y;
+	fin >> goal.row >> goal.col;
 	rc.SetGoalOnLocation(goal);
 
 	// Place furniture
 	for (int i = 0; i < numberOfFurniture; i++) {
 		LocRec temp;
-		fin >> temp.x >> temp.y;
+		fin >> temp.row >> temp.col;
 		
 		// Array is one based
-		temp.x += 1;
-		temp.y += 1;
+		temp.row += 1;
+		temp.col += 1;
 		
 		rc.SetFurnitureOnLocation(temp);
 	}
@@ -370,11 +370,11 @@ void buildRoom(RoomClass &rc) {
 	// Place dirt
 	for (int i = 0; i < numberOfDirtPiles; i++) {
 		LocRec temp;
-		fin >> temp.x >> temp.y;
+		fin >> temp.row >> temp.col;
 
 		// Array is one based
-		temp.x += 1;
-		temp.y += 1;
+		temp.row += 1;
+		temp.col += 1;
 
 		rc.SetDirtOnLocation(temp);
 	}
