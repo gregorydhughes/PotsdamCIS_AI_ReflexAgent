@@ -21,6 +21,12 @@ enum Action {
 	TURNOFF
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                   //
+//                                                             Begin Prototypes                                                      //
+//                                                                                                                                   //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 // Parameters: &rc - room object to be constructed and filled
 //             with stuff
 // Post-Condition: Builds room for agent to explore and clean
@@ -40,6 +46,8 @@ PerceptRec shiftPercepts(PerceptRec temper, Direction dir);
 // Returns:    north - the square agent moves to
 LocRec getNorth(LocRec cur, Direction dir);
 
+string ActionEnumToString(/*in*/Action act);
+
 // Pre:		The actions, score and percepts of the vBot have been determined for each Time slice.
 // Post:	The actions, socre and percepts for each Time slice are printed to a file.
 void PrintOutputFile(/*in/out*/ofstream &fout,				// File stream to write to
@@ -48,6 +56,18 @@ void PrintOutputFile(/*in/out*/ofstream &fout,				// File stream to write to
 						/*in*/Action act,					// Action at Time
 						/*in*/int score);					// Score at Time
 
+// Pre:		An Action Enumerated type is determined
+// Post:	A string representation of the Action Enum type is returned to caller
+string ActionEnumToString(/*in*/Action act);				// Enum action to convert
+
+char IntToChar()
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                                                                   //
+//                                                           Begin vBot and Main                                                     //
+//                                                                                                                                   //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 int main() {
 	// Initialize room object
 	RoomClass rc;
@@ -55,7 +75,8 @@ int main() {
 	srand(1);
 
 	// Set continue conditions
-	int moves = rc.GetRoomSize() * rc.GetRoomSize() * 10;
+	int maxMoves = rc.GetRoomSize() * rc.GetRoomSize() * 10;
+	int currTime = 0;
 	bool goal = false;
 
 	int points = 0;
@@ -71,14 +92,11 @@ int main() {
 
 	ofstream fout;
 
-	fout.open(fileOut.c_str);
+	fout.open(fileOut.c_str());
 	
 	// Clean room
-	while (moves > 0 && !goal) {
-		PerceptRec temper = rc.GetPercepts(currentLocation);
-		
-
-		PerceptRec shiftRec = shiftPercepts(temper, dir);			
+	while (currTime < maxMoves && !goal) {
+		PerceptRec shiftRec = shiftPercepts(rc.GetPercepts(currentLocation), dir);
 		Action curAction = getCurrentAction(shiftRec);
 		switch (curAction) {
 		case GOFORWARD:
@@ -137,8 +155,17 @@ int main() {
 		//for (int i = 0; i < 1000000000; i++) {}
 		
 		cout << rc.GetRoomString(currentLocation, dir) << endl;
+		
+		if (currTime == 0)
+		{
+			PrintOutputFile(fout, currTime, shiftRec, curAction, points);
+		}
+
 		points--;
-		moves--;
+		currTime++;
+
+		PrintOutputFile(fout, currTime, shiftRec, curAction, points);
+
 	}
 
 	if (goal)
@@ -146,7 +173,11 @@ int main() {
 		cout << "Congrats you made the goal!\n Total Points: " << points << endl;
 	}
 	else
-	{		
+	{
+		// not on goal penalty
+		points -= 1000;
+
+		// print regrets
 		cout << "Sorry, you didn't make the goal.\n Total Points: " << points << endl;
 	}
 
@@ -155,6 +186,9 @@ int main() {
 	//                    This line must be deleted before submission!                   //
 	///////////////////////////////////////////////////////////////////////////////////////
 	system("pause");
+
+	// Close the streams
+	fout.close();
 
 	return 0;
 }
@@ -344,6 +378,8 @@ void buildRoom(RoomClass &rc) {
 
 		rc.SetDirtOnLocation(temp);
 	}
+
+	fin.close();
 }
 
 // Pre:		The actions, score and percepts of the vBot have been determined for each Time slice.
@@ -354,5 +390,41 @@ void PrintOutputFile(/*in/out*/ofstream &fout,				// File Stream to write to
 						/*in*/Action act,					// Action at Time
 						/*in*/int score)					// Score at Time
 {
+	if (t == 0)
+	{
+		fout << "Time\tB Du Df Db Dr Dl Gu Gf Gb Gr Gl>\t\tAction\tScore" << endl;
+		fout << "----\t--------------------------------\t\t------\t-----" << endl;
+	}
 
+	fout << t << "\t<" << pr.touch << " " << pr.dUnder << " " << pr.dNorth << " " << pr.dSouth << " " << pr.dWest << " "
+		<< pr.dEast << " " << pr.gUnder << " " << pr.gNorth << " " << pr.gSouth << " " << pr.gWest << " " << pr.gEast << ">\t"
+		<< ActionEnumToString(act) << "\t" << endl;
+
+}
+
+// Pre:		An Action Enumerated type is determined
+// Post:	A string representation of the Action Enum type is returned to caller
+string ActionEnumToString(/*in*/Action act)				// Enum action to convert
+{
+	switch (act)
+	{
+	case GOFORWARD:
+		return "Go forward";
+		break;
+	case TURNRIGHT90:
+		return "Turn Right";
+		break;
+	case TURNLEFT90:
+		return "Turn Left";
+		break;
+	case VACUUMUPDIRT:
+		return "Vacuum Tile";
+		break;
+	case TURNOFF:
+		return "Turn Off";
+		break;
+	default:
+		throw NoApplicableStringException();
+		break;
+	}
 }

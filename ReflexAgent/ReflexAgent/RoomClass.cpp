@@ -7,7 +7,7 @@
 */
 
 #include "RoomClass.h"
-#include "ExceptionClass.h"
+
 
 RoomClass::RoomClass()
 {

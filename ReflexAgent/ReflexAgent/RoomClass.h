@@ -9,6 +9,7 @@
 #include "LocRec.h"
 #include "TileRec.h"
 #include "PerceptRec.h"
+#include "ExceptionClass.h"
 #include <string>
 
 const int MAX_ROOM_SIZE = 10;	// The Maximum size of the room
